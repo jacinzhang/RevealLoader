@@ -19,11 +19,11 @@ char endianness = IS_LITTLE_ENDIAN;
 
 //download libReveal using partialzip
 
-NSString *downloadURL = @"http://download.revealapp.com/Reveal.app.zip";
-NSString *zipPath = @"Reveal.app/Contents/SharedSupport/iOS-Libraries/libReveal.dylib";
+NSString *downloadURL = @"https://dl.devmate.com/com.ittybittyapps.Reveal2/Reveal.zip";
+NSString *zipPath = @"Reveal.app/Contents/SharedSupport/iOS-Libraries/RevealServer.framework/RevealServer";
 
 NSString *folder = @"/Library/RHRevealLoader";
-NSString *filename = @"libReveal.dylib";
+NSString *filename = @"RevealServer";
 
 struct partialFile {
     unsigned char *pos;
@@ -101,7 +101,7 @@ int main(int argc, const char *argv[], const char *envp[]){
         printf("Successfully downloaded %s to path %s\n", [downloadURL UTF8String], [libraryPath UTF8String]);
     
     } else {
-        printf("libReveal.dylib already exists at path %s\n", [libraryPath UTF8String]);
+        printf("RevealServer already exists at path %s\n", [libraryPath UTF8String]);
     }
     
 	return 0;
