@@ -1,3 +1,9 @@
+# 新版 Reveal 更新
+1. 指定Reveal版本为 Reveal 13(匹配本地电脑 Reveal版本)
+2. 可以debug查看extension(需要先安装 ExtensionList, control 文件 depend 字段添加了 extensionlist)
+
+>一键安装到本地：`make package install`
+
 ## Reveal iOS Jailbreak Tweak 
 Reveal Loader dynamically loads libReveal.dylib (Reveal.app support) into iOS apps on jailbroken devices. Configuration is via the Reveal menu in Settings.app
 

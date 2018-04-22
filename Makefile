@@ -1,8 +1,13 @@
 export THEOS_PACKAGE_DIR_NAME=./releases/debs
-export TARGET=:clang:latest:5.1
-export ARCHS=armv7 armv7s arm64
+export TARGET=:clang:latest:9.1
+# export ARCHS=armv7 armv7s arm64
 export ADDITIONAL_CFLAGS = -Ithird-party/partialzip/include -Ithird-party/libcurl
 export SSH_ASKPASS = ./ssh-askpass
+
+THEOS_DEVICE_IP = 192.168.1.107
+DEBUG = 0
+FINALPACKAGE = 1
+ARCHS = arm64
 
 include theos/makefiles/common.mk
 
