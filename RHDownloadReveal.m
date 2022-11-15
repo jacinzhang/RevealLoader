@@ -22,7 +22,7 @@ char endianness = IS_LITTLE_ENDIAN;
 // 这里指定 Reveal 版本官网地址 
 // Reveal 13: https://dl.devmate.com/com.ittybittyapps.Reveal2/10035/1512358265/Reveal-10035.zip
 // 最新版: https://dl.devmate.com/com.ittybittyapps.Reveal2/Reveal.zip
-NSString *downloadURL = @"https://dl.devmate.com/com.ittybittyapps.Reveal2/Reveal.zip";
+NSString *downloadURL = @"https://download.revealapp.com/Reveal.app-27.zip";
 NSString *zipPath = @"Reveal.app/Contents/SharedSupport/iOS-Libraries/RevealServer.framework/RevealServer";
 
 NSString *folder = @"/Library/RHRevealLoader";

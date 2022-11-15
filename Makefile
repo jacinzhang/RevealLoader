@@ -4,7 +4,7 @@ export TARGET=:clang:latest:9.1
 export ADDITIONAL_CFLAGS = -Ithird-party/partialzip/include -Ithird-party/libcurl
 export SSH_ASKPASS = ./ssh-askpass
 
-THEOS_DEVICE_IP = 192.168.1.107
+THEOS_DEVICE_IP = 192.168.10.210
 DEBUG = 0
 FINALPACKAGE = 1
 ARCHS = arm64
