@@ -1,6 +1,6 @@
 NULL_NAME := $(strip $(NULL_NAME))
 
-ifeq ($(_THEOS_RULES_LOADED),)
+ifeq ($(_THEOS_RULES_LOADED),$(_THEOS_FALSE))
 include $(THEOS_MAKE_PATH)/rules.mk
 endif
 
@@ -14,6 +14,6 @@ internal-clean:: $(NULLS_WITH_SUBPROJECTS:=.clean.null.subprojects)
 endif
 
 $(NULL_NAME):
-	@$(MAKE) -f $(_THEOS_PROJECT_MAKEFILE_NAME) --no-print-directory --no-keep-going $@.all.null.variables
+	$(ECHO_MAKE)$(MAKE) -f $(_THEOS_PROJECT_MAKEFILE_NAME) $(_THEOS_MAKEFLAGS) $@.all.null.variables
 
 $(eval $(call __mod,master/null.mk))

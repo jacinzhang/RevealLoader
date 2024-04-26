@@ -1,4 +1,4 @@
-ifeq ($(_THEOS_RULES_LOADED),)
+ifeq ($(_THEOS_RULES_LOADED),$(_THEOS_FALSE))
 include $(THEOS_MAKE_PATH)/rules.mk
 endif
 
@@ -9,11 +9,17 @@ ifeq ($(LOCAL_INSTALL_PATH),)
 	LOCAL_INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries
 endif
 
-_THEOS_INTERNAL_LDFLAGS += -lsubstrate
+_LOCAL_LOGOS_DEFAULT_GENERATOR = $(or $($(THEOS_CURRENT_INSTANCE)_LOGOS_DEFAULT_GENERATOR),$(LOGOS_DEFAULT_GENERATOR),$(_THEOS_TARGET_LOGOS_DEFAULT_GENERATOR),MobileSubstrate)
+_THEOS_INTERNAL_LOGOSFLAGS += -c generator=$(_LOCAL_LOGOS_DEFAULT_GENERATOR)
+
+_LOCAL_ORION_DEFAULT_BACKEND = $(or $($(THEOS_CURRENT_INSTANCE)_ORION_DEFAULT_BACKEND),$(ORION_DEFAULT_BACKEND),$(_THEOS_TARGET_ORION_DEFAULT_BACKEND),Substrate)
+_THEOS_INTERNAL_ORIONFLAGS += --backend $(_LOCAL_ORION_DEFAULT_BACKEND)
 
 include $(THEOS_MAKE_PATH)/instance/library.mk
 
 internal-tweak-all_:: internal-library-all_
+
+internal-tweak-compile: internal-library-compile
 
 ifneq ($(strip $($(THEOS_CURRENT_INSTANCE)_BUNDLE_RESOURCE_DIRS) $($(THEOS_CURRENT_INSTANCE)_BUNDLE_RESOURCE_FILES)),)
 _LOCAL_BUNDLE_INSTALL_PATH = $(or $($(THEOS_CURRENT_INSTANCE)_BUNDLE_INSTALL_PATH),/Library/Application Support/$(THEOS_CURRENT_INSTANCE))
@@ -28,7 +34,15 @@ internal-tweak-all_:: shared-instance-bundle-all
 internal-tweak-stage_:: shared-instance-bundle-stage
 endif
 
+ifneq ($($(THEOS_CURRENT_INSTANCE)_INSTALL),0)
 internal-tweak-stage_:: $(_EXTRA_TARGET) internal-library-stage_
-	$(ECHO_NOTHING)if [ -f $(THEOS_CURRENT_INSTANCE).plist ]; then cp $(THEOS_CURRENT_INSTANCE).plist "$(THEOS_STAGING_DIR)$(LOCAL_INSTALL_PATH)/"; fi$(ECHO_END)
+ifeq ($(call __exists,$(THEOS_CURRENT_INSTANCE).plist),$(_THEOS_TRUE))
+	$(ECHO_NOTHING)cp "$(THEOS_CURRENT_INSTANCE).plist" "$(THEOS_STAGING_DIR)$(LOCAL_INSTALL_PATH)/$(THEOS_CURRENT_INSTANCE).plist"$(ECHO_END)
+else ifeq ($(call __exists,Filter.plist),$(_THEOS_TRUE))
+	$(ECHO_NOTHING)cp "Filter.plist" "$(THEOS_STAGING_DIR)$(LOCAL_INSTALL_PATH)/$(THEOS_CURRENT_INSTANCE).plist"$(ECHO_END)
+else
+	$(ERROR_BEGIN)"You are missing a filter property list. Make sure it’s named \"$(THEOS_CURRENT_INSTANCE).plist\" or \"Filter.plist\". Refer to http://iphonedevwiki.net/index.php/Cydia_Substrate#MobileLoader."$(ERROR_END)
+endif
+endif
 
 $(eval $(call __mod,instance/tweak.mk))

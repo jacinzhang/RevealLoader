@@ -4,7 +4,7 @@ Replaces: com.rheard.rhrevealloader
 Name: Reveal
 Version: 1.0.0
 Architecture: iphoneos-arm
-Depends: firmware (>= 8.0), mobilesubstrate, applist, preferenceloader, com.zidaneno5.ExtensionList
+Depends: firmware (>= 8.0), mobilesubstrate, applist, preferenceloader
 Maintainer: XIN <zx270611346@gmail.com>
 Author: XIN
 Section: Tweaks

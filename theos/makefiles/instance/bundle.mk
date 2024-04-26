@@ -4,7 +4,9 @@ endif
 
 .PHONY: internal-bundle-all_ internal-bundle-stage_ internal-bundle-compile
 
+ifeq ($(call __theos_bool,$(or $($(THEOS_CURRENT_INSTANCE)_DYNAMIC_LIBRARY),$(_THEOS_TRUE))),$(_THEOS_TRUE))
 _THEOS_INTERNAL_LDFLAGS += -dynamiclib
+endif
 
 # Bundle Setup
 LOCAL_BUNDLE_NAME = $(or $($(THEOS_CURRENT_INSTANCE)_BUNDLE_NAME),$(THEOS_CURRENT_INSTANCE))
@@ -21,10 +23,10 @@ ifeq ($(_THEOS_MAKE_PARALLEL_BUILDING), no)
 internal-bundle-all_:: $(_OBJ_DIR_STAMPS) shared-instance-bundle-all $(THEOS_OBJ_DIR)/$(_LOCAL_INSTANCE_TARGET)
 else
 internal-bundle-all_:: $(_OBJ_DIR_STAMPS) shared-instance-bundle-all
-	$(ECHO_NOTHING)$(MAKE) -f $(_THEOS_PROJECT_MAKEFILE_NAME) --no-print-directory --no-keep-going \
+	$(ECHO_MAKE)$(MAKE) -f $(_THEOS_PROJECT_MAKEFILE_NAME) $(_THEOS_MAKEFLAGS) \
 		internal-bundle-compile \
 		_THEOS_CURRENT_TYPE=$(_THEOS_CURRENT_TYPE) THEOS_CURRENT_INSTANCE=$(THEOS_CURRENT_INSTANCE) _THEOS_CURRENT_OPERATION=compile \
-		THEOS_BUILD_DIR="$(THEOS_BUILD_DIR)" _THEOS_MAKE_PARALLEL=yes$(ECHO_END)
+		THEOS_BUILD_DIR="$(THEOS_BUILD_DIR)" _THEOS_MAKE_PARALLEL=yes
 
 internal-bundle-compile: $(THEOS_OBJ_DIR)/$(_LOCAL_INSTANCE_TARGET)
 endif
